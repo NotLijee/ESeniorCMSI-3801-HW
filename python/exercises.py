@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from collections.abc import Callable
 
 
+#Change function
 def change(amount: int) -> dict[int, int]:
     if not isinstance(amount, int):
         raise TypeError('Amount must be an integer')
@@ -13,21 +14,15 @@ def change(amount: int) -> dict[int, int]:
     return counts
 
 
+# First then lower case
+def first_then_lower_case( word: list[str], predicate: Callable, /) -> str:
+    for string in word:
+        if predicate(string):
+            return string.lower()
+        
 
-
-# Write your first then lower case function here
-def first_then_lower_case(a: list[str], p: Callable):
-            for string in a:
-                if string == []:
-                     return None
-                elif p(string):
-                    return string.lower()
-            return None 
-
-
-# Write your powers generator here
-
-def powers_generator(base: int, limit: int):
+# Powers Generator
+def powers_generator(*,base: int, limit: int):
     power = 0
     result = 1
     while result <= limit:
@@ -35,38 +30,31 @@ def powers_generator(base: int, limit: int):
         power += 1
         result = base ** power
 
-               
-          
 
-# Write your say function here
-def say(word=""):
-    words = []
-    
-    def chainable(next_word=None):
-        if next_word is None:
-            return " ".join(words)
-        words.append(next_word)
-        return chainable
-    
-    if word:
-        words.append(word)
-        
-    return chainable
+# Say Function
+def say(word=None, /):
+    if word == None:
+        return ""
+    def chain(next_word=None):
+        if next_word == None:
+            return word
+        return say(f"{word} {next_word}")
+    return chain
 
-# Write your line count function here
-def meaningful_line_count(filename):
+# Line count
+def meaningful_line_count(filename, /):
     try:
         with open(filename, 'r') as file:
             count = 0
             for line in file:
-                stripped_line = line.strip()  # Remove surrounding whitespace
+                stripped_line = line.strip() 
                 if stripped_line and not stripped_line.startswith('#'):
                     count += 1
             return count
     except FileNotFoundError as e:
         raise FileNotFoundError("No such file") from e
 
-# Write your Quaternion class here
+# Quaternion Class
 @dataclass(frozen=True)
 class Quaternion:
     a: float
@@ -91,7 +79,7 @@ class Quaternion:
     def __eq__(self, other):
         if isinstance(other, Quaternion):
             return (self.a, self.b, self.c, self.d) == (other.a, other.b, other.c, other.d)
-        return NotImplemented
+        return False
     
     @property
     def conjugate(self):
